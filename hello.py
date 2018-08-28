@@ -27,7 +27,12 @@ def main():
   else:
     name = 'World'
   print ('Hello', name)
-
+  print ('''hi
+  do you realize?''')
+  short_name = name
+  short_name = short_name[1:]
+  print (name)
+  print (short_name)
 # This is the standard boilerplate that calls the main() function.
 if __name__ == '__main__':
   main()
