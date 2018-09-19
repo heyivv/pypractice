@@ -41,8 +41,35 @@ def extract_names(filename):
   ['2006', 'Aaliyah 91', Aaron 57', 'Abagail 895', ' ...]
   """
   # +++your code here+++
-  return
 
+  # Open file string
+  f = open(filename, 'r')
+  fstr = f.read()
+
+  # Extract year
+  match_year_s = re.findall(r'Popularity in (\d+)', fstr)
+  #print ("YEAR matches")
+  #for yr in match_year_s :
+  # print (yr)
+
+  final_str = [match_year_s[0]]
+
+  # Extract baby names and ranking
+  match_rank_name_t = re.findall(r'<.*?>(\d+)</.*?><.*?>(\w+?)</.*?><.*?>(\w+?)</.*?>', fstr)
+  #print ("RANK NAME NAME matches")
+
+
+  for rn_t in match_rank_name_t :
+    #print (rn_t[0] + ' ' + rn_t[1] + ' ' + rn_t[2])
+    final_str.append(rn_t[1]+' '+rn_t[0])
+    final_str.append(rn_t[2]+' '+rn_t[0])
+  #print ("FINAL_STR length = " + str(len(final_str)))
+
+  #str[0] = yr
+  final_str = sorted(final_str)
+  #print (final_str)
+
+  return final_str
 
 def main():
   # This command-line parsing code is provided.
@@ -51,7 +78,7 @@ def main():
   args = sys.argv[1:]
 
   if not args:
-    print 'usage: [--summaryfile] file [file ...]'
+    print ('usage: [--summaryfile] file [file ...]')
     sys.exit(1)
 
   # Notice the summary flag and remove it from args if it is present.
@@ -63,6 +90,19 @@ def main():
   # +++your code here+++
   # For each filename, get the names, then either print the text output
   # or write it to a summary file
-  
+
+  # parse the file name
+  for fname in args :
+    print ('Reading file : ' + fname)
+    result = extract_names(fname)
+    if summary :
+      outf = open(fname+'.summary', 'w')
+      result_s = '\n'.join(str(s) for s in result)
+      outf.write(result_s)
+      outf.close()
+    else :
+      print (result)
+
+
 if __name__ == '__main__':
   main()
